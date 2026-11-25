@@ -44,7 +44,7 @@ for (const place of places) {
 const items = [
     { title: "Latte", category: "Drinks", price: 5 },
     { title: "Americano", category: "Drinks", price: 4 },
-    { title: "Cheesecake", category: "Desserts", price: 6 },
+    { title: "Cheesecake", category: "Snacks", price: 6 },
     { title: "Sandwich", category: "Meals", price: 8 }
 ];
 for (const item of items) {
