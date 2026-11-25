@@ -28,6 +28,7 @@ themeBtn.addEventListener("click", () => {
     themeBtn.setAttribute("aria-pressed", goDark);
 });
 
+
 // PART C: CARDS FROM THE ARRAY
 // - priceLabel(price): "Free" if 0, "Under $5" if less than 5, else "$" + price.
 function priceLabel(price) {
@@ -58,13 +59,13 @@ function cardHTML(item) {
 
 // - Draw the cards into #tourList with map and join.
 const tourList = document.querySelector("#tourList");
-tourList.innerHTML = items.map(cardHTML).join("");
 
 // - Save buttons toggle is-saved, the text Save / Saved and aria-pressed.
 //   #savedCount always shows how many items are saved.
 const savedCount = document.querySelector("#savedCount");
 let saved = 0;
 
+// Switch the save state and update the count.
 tourList.addEventListener("click", event => {
     const btn = event.target.closest(".save-btn");
     if (!btn) return;
@@ -77,17 +78,24 @@ tourList.addEventListener("click", event => {
     savedCount.textContent = saved;
 });
 
+
 // PART D: FILTER AND SEARCH
 // - Two state variables: activeCategory and query.
 let activeCategory = "All";
 let query = "";
 
 // - One update() function: filter the items, draw them, update #count.
+const count = document.querySelector("#count");
 function update() {
     const shown = items.filter(item =>
         (activeCategory === "All" || item.category === activeCategory)
         && item.title.toLowerCase().includes(query));
+    
     tourList.innerHTML = shown.map(cardHTML).join("");
+    count.textContent = `Showing ${shown.length} of ${items.length} items`;
+    if (shown.length === 0) {
+        tourList.innerHTML = "<p>No items match your search.</p>";
+    }
 }
 
 // - Category buttons (.filter-btn) set activeCategory, move is-active and aria-pressed.
@@ -106,5 +114,11 @@ for (const btn of filterBtns) {
 }
 
 // - #searchBox (input event) sets query. Ignore capital letters.
+const searchBox = document.querySelector("#searchBox");
+searchBox.addEventListener("input", event => {
+    query = event.target.value.toLowerCase();
+    update();
+});
 
 // - #count shows "Showing 3 of 8 items". If nothing matches, show a message.
+update();
