@@ -79,7 +79,32 @@ tourList.addEventListener("click", event => {
 
 // PART D: FILTER AND SEARCH
 // - Two state variables: activeCategory and query.
+let activeCategory = "All";
+let query = "";
+
 // - One update() function: filter the items, draw them, update #count.
+function update() {
+    const shown = items.filter(item =>
+        (activeCategory === "All" || item.category === activeCategory)
+        && item.title.toLowerCase().includes(query));
+    tourList.innerHTML = shown.map(cardHTML).join("");
+}
+
 // - Category buttons (.filter-btn) set activeCategory, move is-active and aria-pressed.
+const filterBtns = document.querySelectorAll(".filter-btn");
+for (const btn of filterBtns) {
+    btn.addEventListener("click", () => {
+        activeCategory = btn.getAttribute("data-category");
+        for (const filterBtn of filterBtns) {
+            filterBtn.classList.remove("is-active");
+            filterBtn.setAttribute("aria-pressed", false);
+        }
+        btn.classList.add("is-active");
+        btn.setAttribute("aria-pressed", true);
+        update();
+    });
+}
+
 // - #searchBox (input event) sets query. Ignore capital letters.
+
 // - #count shows "Showing 3 of 8 items". If nothing matches, show a message.
