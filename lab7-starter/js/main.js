@@ -62,7 +62,20 @@ tourList.innerHTML = items.map(cardHTML).join("");
 
 // - Save buttons toggle is-saved, the text Save / Saved and aria-pressed.
 //   #savedCount always shows how many items are saved.
+const savedCount = document.querySelector("#savedCount");
+let saved = 0;
 
+tourList.addEventListener("click", event => {
+    const btn = event.target.closest(".save-btn");
+    if (!btn) return;
+
+    const isSaved = btn.classList.toggle("is-saved");
+    btn.textContent = isSaved ? "Saved" : "Save";
+    btn.setAttribute("aria-pressed", isSaved);
+
+    saved = isSaved ? saved + 1 : saved - 1;
+    savedCount.textContent = saved;
+});
 
 // PART D: FILTER AND SEARCH
 // - Two state variables: activeCategory and query.
