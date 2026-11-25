@@ -45,13 +45,14 @@ function priceLabel(price) {
 //   It shows title, category, priceLabel(price) and a Save button with
 //   class "save-btn", a data-id, and aria-pressed="false".
 function cardHTML(item) {
+    const isSaved = saved.includes(String(item.id));
     return `<div class="col-12 md:col-6 lg:col-4">
         <div class="card h-100">
             <div class="card-body">
                 <h3 class="card-title">${item.title}</h3>
                 <p>${item.category} · ${priceLabel(item.price)}</p>
-                <button type="button" class="btn-solid theme-primary save-btn"
-                    data-id="${item.id}" aria-pressed="false">Save</button>
+                <button type="button" class="btn-solid theme-primary save-btn ${isSaved ? "is-saved" : ""}"
+                    data-id="${item.id}" aria-pressed="${isSaved}">${isSaved ? "Saved" : "Save"}</button>
             </div>
         </div>
     </div>`;
@@ -63,19 +64,24 @@ const tourList = document.querySelector("#tourList");
 // - Save buttons toggle is-saved, the text Save / Saved and aria-pressed.
 //   #savedCount always shows how many items are saved.
 const savedCount = document.querySelector("#savedCount");
-let saved = 0;
+let saved = [];
 
 // Switch the save state and update the count.
 tourList.addEventListener("click", event => {
     const btn = event.target.closest(".save-btn");
     if (!btn) return;
 
+    const id = btn.getAttribute("data-id");
     const isSaved = btn.classList.toggle("is-saved");
     btn.textContent = isSaved ? "Saved" : "Save";
     btn.setAttribute("aria-pressed", isSaved);
 
-    saved = isSaved ? saved + 1 : saved - 1;
-    savedCount.textContent = saved;
+    if (isSaved) {
+        saved.push(id);
+    } else {
+        saved = saved.filter(item => item !== id);
+    }
+    savedCount.textContent = saved.length;
 });
 
 
