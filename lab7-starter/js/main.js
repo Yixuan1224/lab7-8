@@ -1,6 +1,9 @@
 // Lab 7: Campus Cafe page (index.html). Test after each step.
 // If you use an AI tool, describe how you used it in a comment here.
 
+// I used AI to help me understand the lab instructions,
+//explain the code I don't understand and check my mistakes.
+
 // PART B: CHANGE THE PAGE
 // - Set the h1 (#pageTitle) text to a title of your choice.
 const heading = document.querySelector("#pageTitle");
@@ -121,6 +124,7 @@ for (const btn of filterBtns) {
 
 // - #searchBox (input event) sets query. Ignore capital letters.
 const searchBox = document.querySelector("#searchBox");
+// Update the search results as the visitor types.
 searchBox.addEventListener("input", event => {
     query = event.target.value.toLowerCase();
     update();
